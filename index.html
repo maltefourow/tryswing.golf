@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWING — See every swing. Master every shot.</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+--text:#f0efe8;--text2:#a8a7a0;--text3:#666;
+--teal:#3dd4a7;--teal-dim:#1d9e75;--teal-glow:rgba(61,212,167,0.15);
+--font:'DM Sans',sans-serif;--mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--teal);text-decoration:none}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:2rem;background:url('product_hero.png') center 40%/contain no-repeat;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.45) 35%,rgba(10,10,10,0.7) 70%,rgba(10,10,10,0.95) 100%);pointer-events:none}
+.hero::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 40%,rgba(61,212,167,0.1) 0%,transparent 60%);pointer-events:none}
+
+.hero-badge{font-family:var(--mono);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(61,212,167,0.4);padding:.5rem 1.25rem;border-radius:100px;margin-bottom:2.5rem;animation:fadeIn 1s ease-out;position:relative;z-index:1;background:rgba(10,10,10,0.5);backdrop-filter:blur(8px)}
+.hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:1.5rem;animation:fadeIn 1s ease-out .2s both;position:relative;z-index:1;text-shadow:0 2px 30px rgba(0,0,0,0.5)}
+.hero-title span{color:var(--teal)}
+.hero-sub{font-size:clamp(1.1rem,2vw,1.4rem);color:var(--text2);max-width:540px;text-align:center;line-height:1.6;margin-bottom:3rem;animation:fadeIn 1s ease-out .4s both;position:relative;z-index:1;text-shadow:0 1px 15px rgba(0,0,0,0.5)}
+
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeIn 1s ease-out .6s both;position:relative;z-index:1}
+.btn{padding:.9rem 2.2rem;border-radius:100px;font-family:var(--font);font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s ease;border:none}
+.btn-primary{background:var(--teal);color:#0a0a0a}
+.btn-primary:hover{background:#4ee8b8;transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--text3)}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal)}
+
+.scroll-hint{position:absolute;bottom:2rem;color:var(--text3);font-size:.85rem;animation:bounce 2s infinite 2s;z-index:1}
+
+section{padding:6rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+
+.section-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;line-height:1.15}
+.section-desc{color:var(--text2);font-size:1.1rem;line-height:1.7;max-width:600px;margin-bottom:3rem}
+
+.features{background:var(--bg)}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.feature-card{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:2rem;transition:all .3s ease}
+.feature-card:hover{border-color:rgba(61,212,167,0.2);transform:translateY(-4px)}
+.feature-icon{width:48px;height:48px;border-radius:12px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;color:var(--teal);font-size:1.25rem}
+.feature-card h3{font-size:1.15rem;font-weight:600;margin-bottom:.6rem}
+.feature-card p{color:var(--text2);font-size:.95rem;line-height:1.6}
+
+.how-it-works{background:var(--bg2)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;counter-reset:step}
+.step{position:relative;padding:2rem 1.5rem;border-radius:16px;background:var(--bg3);border:1px solid rgba(255,255,255,0.04)}
+.step::before{counter-increment:step;content:counter(step);font-family:var(--mono);font-size:3rem;font-weight:700;color:rgba(61,212,167,0.15);position:absolute;top:1rem;right:1.5rem}
+.step h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;color:var(--teal)}
+.step p{color:var(--text2);font-size:.9rem;line-height:1.6}
+
+.specs{background:var(--bg)}
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden}
+.spec{background:var(--bg);padding:1.75rem;text-align:center}
+.spec-value{font-family:var(--mono);font-size:1.8rem;font-weight:700;color:var(--teal);margin-bottom:.4rem}
+.spec-label{font-size:.85rem;color:var(--text2)}
+
+.pricing{background:var(--bg2);text-align:center}
+
+.app-section{background:var(--bg2)}
+.app-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.app-phone{position:relative;display:flex;justify-content:center}
+.phone-frame{width:260px;height:520px;background:var(--bg3);border-radius:32px;border:2px solid rgba(255,255,255,0.08);overflow:hidden;position:relative}
+.phone-notch{width:120px;height:24px;background:var(--bg3);border-radius:0 0 16px 16px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;border:1px solid rgba(255,255,255,0.05);border-top:none}
+.phone-screen{padding:40px 16px 16px;height:100%}
+.app-header{text-align:center;margin-bottom:16px}
+.app-header h4{font-size:.85rem;font-weight:600;color:var(--teal)}
+.app-header p{font-size:.65rem;color:var(--text3);margin-top:2px}
+.app-metric{background:rgba(61,212,167,0.08);border:1px solid rgba(61,212,167,0.15);border-radius:12px;padding:12px;margin-bottom:8px}
+.app-metric-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.app-metric-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
+.app-metric-value{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--teal)}
+.app-metric-unit{font-size:.7rem;color:var(--text2)}
+.app-bar-chart{display:flex;align-items:flex-end;gap:3px;height:60px;margin-top:12px;padding:0 4px}
+.app-bar{background:var(--teal);border-radius:2px 2px 0 0;flex:1;opacity:0.7;min-width:4px}
+.app-bar:nth-child(3n){opacity:1}
+.app-consistency{background:rgba(255,255,255,0.04);border-radius:12px;padding:12px;margin-top:8px}
+.app-consistency-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.app-consistency-score{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text)}
+.app-consistency-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:6px;overflow:hidden}
+.app-consistency-fill{height:100%;background:linear-gradient(90deg,var(--teal-dim),var(--teal));border-radius:2px;width:78%}
+.app-features{display:flex;flex-direction:column;gap:1.5rem}
+.app-feature{display:flex;gap:1rem;align-items:flex-start}
+.app-feature-icon{width:40px;height:40px;border-radius:10px;background:var(--teal-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--teal)}
+.app-feature h4{font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.app-feature p{font-size:.9rem;color:var(--text2);line-height:1.5}
+.app-stores{display:flex;gap:.75rem;margin-top:2rem}
+.store-badge{padding:.6rem 1.4rem;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:var(--bg3);font-size:.85rem;color:var(--text);display:flex;align-items:center;gap:.5rem;cursor:pointer;transition:border-color .3s}
+.store-badge:hover{border-color:var(--teal)}
+.store-badge small{font-size:.65rem;color:var(--text3);display:block}
+
+@media(max-width:600px){
+.app-layout{grid-template-columns:1fr;gap:2rem}
+.app-phone{order:-1}
+}
+.price-card{background:var(--bg);border:1px solid rgba(61,212,167,0.2);border-radius:20px;padding:3rem;max-width:480px;margin:0 auto}
+.price-card h3{font-size:1.3rem;font-weight:600;margin-bottom:.5rem}
+.price-card .price{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--teal);margin:1.5rem 0}
+.price-card .price span{font-size:1rem;color:var(--text2);font-weight:400}
+.price-includes{list-style:none;text-align:left;margin:1.5rem 0 2rem}
+.price-includes li{padding:.6rem 0;color:var(--text2);font-size:.95rem;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:.75rem}
+.price-includes li::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;flex-shrink:0}
+
+footer{padding:3rem 2rem;text-align:center;color:var(--text3);font-size:.85rem;border-top:1px solid rgba(255,255,255,0.04)}
+footer a{color:var(--text2)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}60%{transform:translateY(-4px)}}
+
+@media(max-width:600px){
+.hero{padding:1.5rem}
+section{padding:4rem 1.5rem}
+.feature-grid,.steps{grid-template-columns:1fr}
+.specs-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="hero-badge">Coming 2027</div>
+<h1 class="hero-title">See every <span>swing.</span></h1>
+<p class="hero-sub">Dual-sensor technology that turns any club into a swing lab. Clip on in seconds. Practice with data. Play with confidence.</p>
+<div class="cta-row">
+<button class="btn btn-primary" onclick="document.getElementById('notify').scrollIntoView({behavior:'smooth'})">Get early access</button>
+<button class="btn btn-secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</button>
+</div>
+<div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<section class="features" id="features">
+<div class="container">
+<div class="section-label">Why SWING</div>
+<h2 class="section-title">Launch monitor data.<br>No launch monitor.</h2>
+<p class="section-desc">Two sensors, two data points, one complete picture. SWING measures what your club actually does — from grip to face — on every swing, everywhere.</p>
+<div class="feature-grid">
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+<h3>Dual-sensor architecture</h3>
+<p>One sensor at the ferrule, one at the grip. The delta between them reveals shaft deflection, kick timing, and true club delivery — data only expensive lab setups could capture before.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+<h3>Clip on in 5 seconds</h3>
+<p>Split-shell design clicks around your shaft — no regripping, no fitter visit, no tools. Move it between clubs in seconds. Practice-ready out of the box.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+<h3>Range-session battery</h3>
+<p>Smart batch mode captures 150+ swings per charge. Clip-on portable charger gets you back to 80% in 15 minutes — while the sensor stays on the club.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+<h3>Consistency, not just numbers</h3>
+<p>SWING doesn't just tell you your face angle — it shows you how consistent you are across 50 balls. Find the patterns. Fix the variance. Build a repeatable swing.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<h3>Invisible when mounted</h3>
+<p>Matte-black housing. Under 4 grams. Looks like a stock ferrule from address. The teal accent ring is the only tell — and it's a feature, not a compromise.</p>
+</div>
+
+<div class="feature-card">
+<div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+<h3>Real swing metrics</h3>
+<p>Clubhead speed, face angle, attack angle, swing path, tempo, shaft deflection, and dynamic loft. Derived from physics, not guesswork.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="how-it-works" id="how">
+<div class="container">
+<div class="section-label">How it works</div>
+<h2 class="section-title">From box to data in under a minute.</h2>
+<p class="section-desc">No setup. No calibration jig. No learning curve.</p>
+<div class="steps">
+<div class="step">
+<h3>Clip on</h3>
+<p>Open the split-shell sensor, click it around your shaft at the ferrule position. Snap the grip sensor onto the butt end. Done.</p>
+</div>
+<div class="step">
+<h3>Calibrate</h3>
+<p>Set the club flat on the ground, face square. Tap one button in the app. The sensor reads gravity, learns its orientation, and locks in. Five seconds.</p>
+</div>
+<div class="step">
+<h3>Hit balls</h3>
+<p>The sensors detect every swing automatically. In batch mode, data uploads every five swings. In live mode, you see each swing instantly.</p>
+</div>
+<div class="step">
+<h3>See your swing</h3>
+<p>Open the app. Your swing data is there — speed, path, face angle, consistency scores. Session over session, the trends tell the story.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="specs" id="specs">
+<div class="container">
+<div class="section-label">Specifications</div>
+<h2 class="section-title">Built for serious practice.</h2>
+<p class="section-desc">Every component chosen for accuracy, durability, and invisibility on the club.</p>
+<div class="specs-grid">
+<div class="spec"><div class="spec-value">&lt;4g</div><div class="spec-label">Ferrule sensor weight</div></div>
+<div class="spec"><div class="spec-value">4 kHz</div><div class="spec-label">Sample rate</div></div>
+<div class="spec"><div class="spec-value">150+</div><div class="spec-label">Swings per charge</div></div>
+<div class="spec"><div class="spec-value">15 min</div><div class="spec-label">Charge to 80%</div></div>
+<div class="spec"><div class="spec-value">&plusmn;2&deg;</div><div class="spec-label">Face angle accuracy</div></div>
+<div class="spec"><div class="spec-value">&plusmn;2 mph</div><div class="spec-label">Speed accuracy</div></div>
+<div class="spec"><div class="spec-value">5 sec</div><div class="spec-label">Install time</div></div>
+<div class="spec"><div class="spec-value">BLE 5.x</div><div class="spec-label">Connectivity</div></div>
+</div>
+</div>
+</section>
+
+<section class="pricing" id="notify">
+
+<section class="app-section" id="app">
+<div class="container">
+<div class="section-label">The app</div>
+<h2 class="section-title">Your swing, decoded.</h2>
+<p class="section-desc">The SWING companion app turns raw sensor data into actionable insight. Track every session, spot trends over weeks, and share it all with your coach.</p>
+
+<div class="app-layout">
+
+<div class="app-phone">
+<div class="phone-frame">
+<div class="phone-notch"></div>
+<div class="phone-screen">
+<div class="app-header">
+<h4>SWING</h4>
+<p>Range session &middot; 7-iron &middot; 47 swings</p>
+</div>
+<div class="app-metric">
+<div class="app-metric-label">Clubhead speed</div>
+<div class="app-metric-row">
+<div class="app-metric-value">82.4</div>
+<div class="app-metric-unit">mph avg</div>
+</div>
+<div class="app-bar-chart">
+<div class="app-bar" style="height:65%"></div>
+<div class="app-bar" style="height:72%"></div>
+<div class="app-bar" style="height:78%"></div>
+<div class="app-bar" style="height:80%"></div>
+<div class="app-bar" style="height:75%"></div>
+<div class="app-bar" style="height:82%"></div>
+<div class="app-bar" style="height:88%"></div>
+<div class="app-bar" style="height:85%"></div>
+<div class="app-bar" style="height:90%"></div>
+<div class="app-bar" style="height:87%"></div>
+<div class="app-bar" style="height:92%"></div>
+<div class="app-bar" style="height:88%"></div>
+<div class="app-bar" style="height:95%"></div>
+<div class="app-bar" style="height:90%"></div>
+<div class="app-bar" style="height:85%"></div>
+<div class="app-bar" style="height:88%"></div>
+<div class="app-bar" style="height:92%"></div>
+<div class="app-bar" style="height:90%"></div>
+<div class="app-bar" style="height:93%"></div>
+<div class="app-bar" style="height:88%"></div>
+</div>
+</div>
+<div class="app-metric">
+<div class="app-metric-label">Face angle at impact</div>
+<div class="app-metric-row">
+<div class="app-metric-value">-1.2&deg;</div>
+<div class="app-metric-unit">avg (slightly closed)</div>
+</div>
+</div>
+<div class="app-consistency">
+<div class="app-consistency-label">Session consistency</div>
+<div class="app-consistency-score">78 / 100</div>
+<div class="app-consistency-bar"><div class="app-consistency-fill"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="app-features">
+<div class="app-feature">
+<div class="app-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<div>
+<h4>Live session tracking</h4>
+<p>See every swing as it happens, or batch-upload at the end of a session. Clubhead speed, face angle, attack angle, path, tempo, and shaft deflection — all in real time.</p>
+</div>
+</div>
+<div class="app-feature">
+<div class="app-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+<div>
+<h4>Trend insights</h4>
+<p>Track your consistency score over weeks and months. See how a swing change affects your delivery data. Spot patterns you can't feel but the sensors can measure.</p>
+</div>
+</div>
+<div class="app-feature">
+<div class="app-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+<div>
+<h4>Share with your coach</h4>
+<p>Export session summaries or give your coach direct access to your data. They see what you see — no more guessing what happened between lessons. Remote coaching, powered by real numbers.</p>
+</div>
+</div>
+<div class="app-feature">
+<div class="app-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
+<div>
+<h4>iOS and Android</h4>
+<p>Free companion app included with every starter kit. No subscription required for core features. Premium analytics available as an optional upgrade.</p>
+</div>
+</div>
+<div class="app-stores">
+<div class="store-badge"><small>Download on the</small> App Store</div>
+<div class="store-badge"><small>Get it on</small> Google Play</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="pricing" id="notify">
+<div class="container">
+<div class="section-label">Early access</div>
+<h2 class="section-title" style="text-align:center">Be first on the range.</h2>
+<p class="section-desc" style="margin:0 auto 3rem;text-align:center">SWING launches in 2027. Join the waitlist for early access pricing and beta testing opportunities.</p>
+<div class="price-card">
+<h3>Starter Kit</h3>
+<div class="price">&euro;249 <span>estimated retail</span></div>
+<ul class="price-includes">
+<li>2 ferrule sensors (iron + driver)</li>
+<li>2 grip sensors</li>
+<li>Portable inductive charger</li>
+<li>Companion app (iOS + Android)</li>
+<li>Carrying case</li>
+<li>Free firmware updates</li>
+</ul>
+<button class="btn btn-primary" style="width:100%">Join the waitlist</button>
+</div>
+</div>
+</section>
+
+<footer>
+<p>&copy; 2026 SWING Golf Technology. Product images are concept renders. Specifications subject to change.<br>
+<a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Contact</a></p>
+</footer>
+
+</body>
+</html>
