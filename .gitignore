@@ -1,0 +1,18 @@
+# Original source file (superseded by index.html)
+swing_landing_page.html
+
+# Research and project docs (not part of the website)
+*.docx
+*.tex
+*.md
+*.pdf
+
+# Keep the compiled whitepaper served by the site
+!SWING_Whitepaper_v01_1.pdf
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
