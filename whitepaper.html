@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Whitepaper — SWING</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0a0a;--bg2:#111;
+--text:#f0efe8;--text2:#a8a7a0;--text3:#666;
+--teal:#3dd4a7;--teal-dim:#1d9e75;
+--font:'DM Sans',sans-serif;--mono:'Space Mono',monospace;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{display:flex;flex-direction:column}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:var(--bg2)}
+.topbar-left{display:flex;align-items:center;gap:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--text2);font-size:.9rem;text-decoration:none;transition:color .2s}
+.back-link:hover{color:var(--teal)}
+.back-link svg{flex-shrink:0}
+.logo{font-family:var(--mono);font-weight:700;font-size:1rem;color:var(--teal);letter-spacing:.1em}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.doc-title{font-size:.85rem;color:var(--text3)}
+.download-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.1rem;border-radius:100px;border:1px solid rgba(61,212,167,0.4);color:var(--teal);font-size:.85rem;text-decoration:none;transition:all .2s;font-family:var(--font)}
+.download-btn:hover{background:rgba(61,212,167,0.08);border-color:var(--teal)}
+
+.pdf-wrapper{flex:1;overflow:hidden}
+iframe{width:100%;height:100%;border:none;display:block}
+
+@media(max-width:600px){
+.doc-title{display:none}
+.topbar{padding:.75rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="topbar-left">
+<a href="/" class="back-link">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+Back
+</a>
+<span class="logo">SWING</span>
+<span class="doc-title">Technical Whitepaper · v0.1 · May 2026</span>
+</div>
+<div class="topbar-right">
+<a href="/SWING_Whitepaper_v01_1.pdf" download class="download-btn">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+Download PDF
+</a>
+</div>
+</div>
+
+<div class="pdf-wrapper">
+<iframe src="/SWING_Whitepaper_v01_1.pdf" title="SWING Technical Whitepaper"></iframe>
+</div>
+
+</body>
+</html>
